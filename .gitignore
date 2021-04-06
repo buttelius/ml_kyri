@@ -1,0 +1,9 @@
+venv/
+.idea
+*.iml
+**/__pycache__/*
+validation/files/*
+.DS_Store
+/tmp
+logging_config.ini
+processing.log

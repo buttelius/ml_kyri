@@ -2,50 +2,50 @@ import math
 from application.Utils import Utils
 
 
-class Bruterforce:
+class Bruteforce:
     def __init__(self):
         utils = Utils()
+
+        self.change_time_matrix = [[0] * len(self.configurations1) for _ in range(len(self.configurations1))]
+        self.set_time_matrix = [0 for _ in range(len(self.configurations1))]
         self.configurations1, self.time_matrix = utils.simple_product_generator()
 
     def get_time_matrix(self):
-        self.change_time_matrix = [[0] * len(self.configurations1) for i in range(len(self.configurations1))]
 
         for i in range(len(self.configurations1)):
             for j in range(len(self.configurations1)):
                 time_top, time_bot, time_rec = 0, 0, 0
+
                 if self.configurations1[i][0] != self.configurations1[j][0]:
                     time_bot = self.time_matrix[0][self.configurations1[j][0] - 1]
                 if self.configurations1[i][1] != self.configurations1[j][1]:
                     time_top = self.time_matrix[1][self.configurations1[j][1] - 1]
                 if self.configurations1[i][2] != self.configurations1[j][2]:
                     time_rec = self.time_matrix[2][self.configurations1[j][2] - 1]
-                self.change_time_matrix[i][j] = time_bot + time_top + time_rec
-
-        self.set_time_matrix = [0 for i in range(len(self.configurations1))]
 
         for i in range(len(self.configurations1)):
             for j in range(len(self.configurations1[i])):
                 self.set_time_matrix[i] += self.time_matrix[j][self.configurations1[i][j] - 1]
 
     @staticmethod
-    def next_set(set):
-        j = len(set) - 2
-        while (set[j] > set[j + 1]) & (j != -1):
+    def next_set(config_set):
+        j = len(config_set) - 2
+        while (config_set[j] > config_set[j + 1]) & (j != -1):
             j -= 1
         if j == -1:
             return True
-        l = len(set) - 1
-        while set[j] > set[l]:
+        l = len(config_set) - 1
+        while config_set[j] > config_set[l]:
             l -= 1
-        temp = set[j]
-        set[j] = set[l]
-        set[l] = temp
+        temp = config_set[j]
+        config_set[j] = config_set[l]
+        config_set[l] = temp
         begin = j + 1
-        end = len(set) - 1
+        end = len(config_set) - 1
         while begin < end:
-            temp = set[begin]
-            set[begin] = set[end]
-            set[end] = temp
+            temp = config_set[begin]
+            config_set[begin] = config_set[end]
+            config_set[end] = temp
             begin += 1
             end -= 1
         return False
@@ -63,7 +63,8 @@ class Bruterforce:
                 current_config = configurations[this_way[current]]
                 next_config = configurations[this_way[current + 1]]
                 result.append(configurations.index(current_config))
-                this_time += self.change_time_matrix[self.configurations1.index(current_config)][self.configurations1.index(next_config)]
+                this_time += self.change_time_matrix[self.configurations1.index(current_config)][
+                    self.configurations1.index(next_config)]
             current_config = configurations[this_way[len(this_way) - 1]]
             result.append(configurations.index(current_config))
             if this_time < min_time:

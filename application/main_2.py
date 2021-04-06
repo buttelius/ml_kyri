@@ -1,4 +1,4 @@
-from application.bruteforce import Bruterforce
+from application.bruteforce import Bruteforce
 import csv
 import os.path
 
@@ -11,7 +11,7 @@ if os.path.isfile(os.path.join(input_path, 'kyri_dataset_3') + '.csv') is False:
                              'answer',
                              'answer_time'))
         for i in range(100):
-            new_item = Bruterforce()
+            new_item = Bruteforce()
             new_item.get_time_matrix()
             time, short_ans, full_ans = new_item.old(new_item.configurations1)
             for item in full_ans:
