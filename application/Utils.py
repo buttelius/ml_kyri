@@ -38,8 +38,7 @@ class Utils:
 
         return products, final_time_matrix
 
-    @staticmethod
-    def simple_product_generator():
+    def simple_product_generator(self):
         products = []
         num_of_products = 10
         num_of_positions = 3
@@ -53,6 +52,7 @@ class Utils:
                 products.append(product)
                 i += 1
 
-        time_matrix = [[random.randint(5, 20) for _ in range(num_of_dif_positions)] for __ in range(num_of_positions)]
+        self.time_matrix = [[random.randint(2, 9) for _ in range(num_of_dif_positions)] for __ in range(num_of_positions)]
 
-        return products, time_matrix
+        return products, self.time_matrix
+

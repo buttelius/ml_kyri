@@ -1,41 +1,40 @@
-import csv
-import os
-
 from application.bruteforce import Bruterforce
+import csv
+import os.path
+from itertools import *
 
-# input_path = 'C:\\Users\\butte\\PycharmProjects\\new dipl'
-path_to_assets = '/Users/alexkoz/projects/ml_kyri/assets'
-
-if os.path.isfile(os.path.join(path_to_assets, 'dataset_test') + '.csv') is False:
-    with open(os.path.join(path_to_assets, 'kyri_dataset_3') + '.csv', 'w', newline='') as csvfile:
+input_path = 'C:\\Users\\butte\\PycharmProjects\\new dipl'
+if os.path.isfile(os.path.join(input_path, 'kyri_dataset_same_ans') + '.csv') is False:
+    with open(os.path.join(input_path, 'kyri_dataset_same_ans') + '.csv', 'w', newline='') as csvfile:
         filewriter = csv.writer(csvfile, delimiter=';', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        filewriter.writerow(('time_matrix',
+                             'configurations',
+                             'answer',
+                             'answer_time'))
 
-        filewriter.writerow(('time_1', 'time_2', 'time_3', 'time_4', 'time_5', 'time_6', 'time_7', 'time_8', 'time_9',
+        new_config = Bruterforce()
+        j = 0
+        #str_time = ''.join(str(_) for _ in new_config.time_matrix[0])
+        #str_time = str_time.join(str(_) for _ in new_config.time_matrix[1])
+        #str_time = str_time.join(str(_) for _ in new_config.time_matrix[2])
+        long_time = 542683371
+        #for item in product(str_time, repeat=9):
+        #while long_time < 999999999:
+        while long_time < 542683380:
+            long_time += 3
+            item = str(long_time)
+            new_time_matrix = [[int(item[0]), int(item[1]), int(item[2])],
+                               [int(item[3]), int(item[4]), int(item[5])],
+                               [int(item[6]), int(item[7]), int(item[8])]]
+            new_config.time_matrix = new_time_matrix
+            new_config.get_time_matrix()
+            time, short_ans, full_ans = new_config.old(new_config.configurations1)
+            for ans_item in full_ans:
+                filewriter.writerow((new_time_matrix, new_config.configurations1, ans_item, time))
 
-                             'conf_1', 'conf_2', 'conf_3', 'conf_4', 'conf_5', 'conf_6', 'conf_7', 'conf_8', 'conf_9',
-                             'conf_10', 'conf_11', 'conf_12', 'conf_13', 'conf_14', 'conf_15', 'conf_16', 'conf_17',
-                             'conf_18', 'conf_19', 'conf_20', 'conf_21', 'conf_22', 'conf_23', 'conf_24', 'conf_25',
-                             'conf_26', 'conf_27', 'conf_28', 'conf_29', 'conf_30',
-
-                             'answ_1', 'answ_2', 'answ_3', 'answ_4', 'answ_5', 'answ_6', 'answ_7', 'answ_8', 'answ_9',
-                             'answ_10', 'answ_11', 'answ_12', 'answ_13', 'answ_14', 'answ_15', 'answ_16', 'answ_17',
-                             'answ_18', 'answ_19', 'answ_20', 'answ_21', 'answ_22', 'answ_23', 'answ_24', 'answ_25',
-                             'answ_26', 'answ_27', 'answ_28', 'answ_29', 'answ_30',
-
-                             'answ_time'))
-        for i in range(2):
-            new_item = Bruterforce()
-            new_item.get_time_matrix()
-            time, short_ans, full_ans = new_item.old(new_item.configurations1)
-            for item in full_ans:
-                answer_config_list = []
-                answer_time_list = []
-
-                times_list = [time_value for sublist in new_item.time_matrix for time_value in sublist]
-                configs_list = [change_value for sublist in new_item.configurations1 for change_value in sublist]
-                item_list = [item_value for sublist in item for item_value in sublist]
-
-                total_row = times_list + configs_list + item_list
-                total_row.append(time)
-
-                filewriter.writerow(total_row)
+        #for i in range(100):
+        #    new_item = Bruterforce()
+        #    new_item.get_time_matrix()
+        #    time, short_ans, full_ans = new_item.old(new_item.configurations1)
+        #    for item in full_ans:
+        #        filewriter.writerow((new_item.time_matrix, new_item.configurations1, item, time))
